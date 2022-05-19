@@ -22,10 +22,11 @@ mongoose.connect('mongodb+srv://ThomasROUX:projetopc@cluster0.y1lbb.mongodb.net/
 // Lancement de Express
 const app = express();
 
-// requete response
-app.use((req, res, next) => {
-    res.json({ message: 'Votre requête a bien été reçue !' });
-});
+app.use(express.json());
+// // requete response
+// app.use((req, res, next) => {
+//     res.json({ message: 'Votre requête a bien été reçue !' });
+// });
 
 
 //middleware
@@ -50,7 +51,7 @@ app.use('/api/auth', userRoutes);
 
 
 
-app.use(express.json());
+
 
 
 module.exports = app;

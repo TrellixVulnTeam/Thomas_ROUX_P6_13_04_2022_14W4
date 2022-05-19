@@ -1,6 +1,6 @@
-// import models uth
-const User = require('../models/user')
-    //import package bcrypt 
+// import models auth
+const User = require('../models/user');
+//import package bcrypt 
 const bcrypt = require('bcrypt');
 // toekn import 
 const jwt = require('jsonwebtoken');

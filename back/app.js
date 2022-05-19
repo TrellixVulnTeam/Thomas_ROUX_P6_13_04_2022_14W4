@@ -10,8 +10,9 @@ const sauceRoutes = require('./routes/sauce');
 console.log(sauceRoutes);
 console.log(userRoutes);
 
+
 // mongoose
-mongoose.connect('mongodb+srv://ThomasRoux:<password>@cluster0.lyz1i.mongodb.net/Cluster0?retryWrites=true&w=majority', {
+mongoose.connect('mongodb+srv://ThomasROUX:<projetopc>@cluster0.y1lbb.mongodb.net/?retryWrites=true&w=majority', {
         useNewUrlParser: true,
         useUnifiedTopology: true
     })
@@ -27,23 +28,16 @@ app.use((req, res, next) => {
 });
 
 
-//middleware 
-// Configuration cors
-// app.use((req, res, next) => {
-//     res.setHeader('Access-Control-Allow-Origin', '*');
-//     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
-//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-//     res.setHeader('Access-Control-Allow-Credentials', true);
-//     next();
-// });
-
+//middleware
 // permet de gérer les erreurs de connexion sur plusieurs serveurs (CORS)
 app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization");
-    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+    res.setHeader('Access-Control-Allow-Credentials', true);
     next();
 });
+
 
 
 

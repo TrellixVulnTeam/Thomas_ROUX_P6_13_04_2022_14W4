@@ -12,7 +12,7 @@ console.log(userRoutes);
 
 
 // mongoose
-mongoose.connect('mongodb+srv://ThomasROUX:<projetopc>@cluster0.y1lbb.mongodb.net/?retryWrites=true&w=majority', {
+mongoose.connect('mongodb+srv://ThomasROUX:projetopc@cluster0.y1lbb.mongodb.net/?retryWrites=true&w=majority', {
         useNewUrlParser: true,
         useUnifiedTopology: true
     })

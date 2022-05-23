@@ -29,6 +29,7 @@ app.use(express.json());
 // });
 
 
+
 //middleware
 // permet de gérer les erreurs de connexion sur plusieurs serveurs (CORS)
 app.use((req, res, next) => {

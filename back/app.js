@@ -1,4 +1,6 @@
+// import de express
 const express = require('express');
+// import de mongoose 
 const mongoose = require('mongoose');
 
 // Import Node 'path' module > give access to the path of our file system
@@ -7,8 +9,8 @@ const path = require('path');
 const userRoutes = require('./routes/user');
 const sauceRoutes = require('./routes/sauce');
 
-console.log(sauceRoutes);
-console.log(userRoutes);
+
+
 
 
 // mongoose
@@ -21,16 +23,7 @@ mongoose.connect('mongodb+srv://ThomasROUX:projetopc@cluster0.y1lbb.mongodb.net/
 
 // Lancement de Express
 const app = express();
-
 app.use(express.json());
-// // requete response
-// app.use((req, res, next) => {
-//     res.json({ message: 'Votre requête a bien été reçue !' });
-// });
-
-
-
-//middleware
 // permet de gérer les erreurs de connexion sur plusieurs serveurs (CORS)
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');

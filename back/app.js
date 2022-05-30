@@ -2,7 +2,8 @@
 const express = require('express');
 // import de mongoose 
 const mongoose = require('mongoose');
-
+//Sécurisation des requêtes - modifie headers
+const helmet = require("helmet");
 // Import Node 'path' module > give access to the path of our file system
 const path = require('path');
 // import route 
@@ -33,7 +34,9 @@ app.use((req, res, next) => {
     next();
 });
 
-
+app.use(helmet({
+    crossOriginResourcePolicy: false,
+}));
 
 
 //fichier image pour le middleware 

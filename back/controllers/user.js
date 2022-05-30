@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 
 
 
+
 // middleware
 exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)

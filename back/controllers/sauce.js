@@ -45,7 +45,7 @@ exports.deleteSauce = (req, res, next) => {
     Sauce.findOne({ _id: req.params.id })
         .then((sauce) => {
             if (!sauce) {
-                return res.status(404).json({ error: "This Sauce does not exist" });
+                return res.status(404).json({ error: "cette sauce n'existe pas" });
             }
 
             if (sauce.userId !== req.auth.userId) {

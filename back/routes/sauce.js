@@ -1,3 +1,7 @@
+const mongoose = require('mongoose');
+// gestionnaire erreur 
+var mongodbErrorHandler = require('mongoose-mongodb-errors')
+mongoose.plugin(mongodbErrorHandler);
 // Import Express 
 const express = require('express');
 // création du router 

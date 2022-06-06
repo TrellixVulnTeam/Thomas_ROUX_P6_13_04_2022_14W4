@@ -1,3 +1,7 @@
+// gestionnaire erreur 
+const mongoose = require('mongoose');
+var mongodbErrorHandler = require('mongoose-mongodb-errors')
+mongoose.plugin(mongodbErrorHandler);
 // Import sauce model
 const Sauce = require('../models/sauce');
 // Import fs module > interact with file system
@@ -36,6 +40,39 @@ exports.getOneSauce = (req, res, next) => {
         .catch((error) => res.status(404).json({ error }));
 };
 
+
+
+
+//sauce update
+exports.updateSauce = (req, res, next) => {
+    if (req.file) {
+        //CONDITION SI L'IMAGE EST MODIFIÉ
+        Sauce.findOne({ _id: req.params.id })
+            .then((sauce) => {
+                const filename = sauce.imageUrl.split("/images/")[1];
+                fs.unlink(`images/${filename}`, () => {
+                    const sauceObject = {
+                        ...JSON.parse(req.body.sauce),
+                        imageUrl: `${req.protocol}://${req.get("host")}/images/${
+                  req.file.filename
+                }`,
+                    };
+                    Sauce.updateOne({ _id: req.params.id }, {...sauceObject, _id: req.params.id })
+                        .then(() => res.status(200).json({ message: "objet modifié" }))
+                        .catch((error) => res.status(400).json({ error }));
+                });
+            })
+            .catch((error) => res.status(500).json({ error }));
+    } else {
+        //CONDITION SI L'IMAGE RESTE LA MEME
+        const sauceObject = {...req.body };
+        Sauce.updateOne({ _id: req.params.id }, {...sauceObject, _id: req.params.id })
+            .then(() => res.status(200).json({ message: "objet modifié" }))
+            .catch((error) => res.status(500).json({ error }));
+    }
+};
+
+
 // chercher une sauce 
 //findOne vérifie que la sauce à supprimer existe
 //On vérifie que l 'utilisateur qui a créé la sauce est le même que celui authentifié *
@@ -47,13 +84,14 @@ exports.deleteSauce = (req, res, next) => {
             if (!sauce) {
                 return res.status(404).json({ error: "cette sauce n'existe pas" });
             }
-
-            if (sauce.userId !== req.auth.userId) {
+            if (sauce.userId == req.userId) {
                 return res.status(403).json({ error: "cette utilisateur n'a pas la permission de supprimer la sauce" });
             }
+            console.log(sauce);
+
+            console.log(req.auth);
 
             const filename = sauce.imageUrl.split("/images/")[1];
-
             fs.unlink(`images/${filename}`, () => {
                 // callback = notre logique delete
                 Sauce.deleteOne({ _id: req.params.id })
@@ -63,39 +101,6 @@ exports.deleteSauce = (req, res, next) => {
         })
         .catch((error) => res.status(500).json({ error }));
 };
-
-
-// MAJ de la sauce
-// On crée un objet sauceObjet qui regarde si req.file existe ou non
-// S'il existe, on traite la nouvelle image
-// S'il n'existe pas, on traite l'objet entrant
-// On effectue la modification
-exports.updateSauce = (req, res, next) => {
-    let sauceObj = {};
-    if (req.file) {
-        Sauce.findOne({ _id: req.params.id })
-            .then((sauce) => {
-                const name = sauce.imageUrl.split('/images/')[1];
-                fs.unlink(`images/${name}`, (err) => {
-                    if (err) console.log(err);
-                    else {
-                        console.log("ancienne photo supprimée");
-                    }
-                })
-            })
-            .catch(error => res.status(400).json({ error }));
-        sauceObj = {
-            ...JSON.parse(req.body.sauce),
-            imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
-        };
-    } else {
-        sauceObj = {...req.body };
-    }
-    Sauce.updateOne({ _id: req.params.id }, {...sauceObj, _id: req.params.id })
-        .then(() => res.status(200).json({ message: 'Objet modifié !' }))
-        .catch(error => res.status(400).json({ message: error }));
-};
-
 
 // define likes dislike
 

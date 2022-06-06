@@ -1,3 +1,6 @@
+const mongoose = require('mongoose');
+var mongodbErrorHandler = require('mongoose-mongodb-errors')
+mongoose.plugin(mongodbErrorHandler);
 // import models auth
 const User = require('../models/user');
 //import package bcrypt 
@@ -21,6 +24,7 @@ exports.signup = (req, res, next) => {
                 .catch(error => res.status(400).json({ error }));
         })
         .catch(error => res.status(500).json({ error }));
+
 };
 // vérification pour login 
 exports.login = (req, res, next) => {

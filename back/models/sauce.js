@@ -1,8 +1,6 @@
 /***Création modèle sauce***/
 const mongoose = require('mongoose');
-// gestionnaire erreur 
-var mongodbErrorHandler = require('mongoose-mongodb-errors')
-mongoose.plugin(mongodbErrorHandler);
+
 
 const sauceSchema = mongoose.Schema({
 

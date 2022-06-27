@@ -7,24 +7,41 @@ const User = require('../models/user');
 const bcrypt = require('bcrypt');
 // toekn import 
 const jwt = require('jsonwebtoken');
-
-
+// import vérification md/mail
+const schemaJoi = require("../middleware/joi");
 
 
 // middleware
 exports.signup = (req, res, next) => {
-    bcrypt.hash(req.body.password, 10)
-        .then(hash => {
-            const user = new User({
-                email: req.body.email,
-                password: hash
-            });
-            user.save()
-                .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
-                .catch(error => res.status(400).json({ error }));
-        })
-        .catch(error => res.status(500).json({ error }));
+    const resultSchema = schemaJoi.validate(req.body);
+    console.log(resultSchema);
 
+    console.log(resultSchema.details)
+    if (!resultSchema.error) {
+
+        //Si le mail/mdp correspond au schema  l compte est créer 
+        bcrypt
+            .hash(resultSchema.value.password, 10)
+            .then((hash) => {
+                const user = new User({
+                    email: resultSchema.value.email,
+                    password: hash,
+                });
+
+                user
+                    .save()
+                    .then(() => res.status(201).json({ message: "utilisateur créé !" }))
+                    .catch((error) => res.status(400).json(error));
+            })
+
+        .catch((error) => res.status(500).json({ error }));
+    } else {
+        //message d'erreur si condition mdp non respecter 
+        return res.status(422).send({
+            errorMsg: 'Mot de passe trop faible, minimum 8 caractères, dont 1 majuscule, 1 minuscule, 1 nombre et 1 caractère spécial'
+        })
+
+    }
 };
 // vérification pour login 
 exports.login = (req, res, next) => {

@@ -5,6 +5,11 @@ module.exports = joi.object().keys({
     email: joi.string().email().required(),
     password: joi
         .string()
-        .regex(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/)
-        .required(),
+        .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/)
+
+        .required()
+        .messages({
+            'string.regex': 'Mot de passe trop faible, minimum 8 caractères, dont 1 majuscule, 1 minuscule, 1 nombre et 1 caractère spécial'
+
+        })
 });

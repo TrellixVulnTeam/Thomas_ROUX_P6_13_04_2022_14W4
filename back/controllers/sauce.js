@@ -84,13 +84,9 @@ exports.deleteSauce = (req, res, next) => {
             if (!sauce) {
                 return res.status(404).json({ error: "cette sauce n'existe pas" });
             }
-            if (sauce.userId == req.userId) {
+            if (sauce.userId !== req.auth.userId) {
                 return res.status(403).json({ error: "cette utilisateur n'a pas la permission de supprimer la sauce" });
             }
-            console.log(sauce);
-
-            console.log(req.auth);
-
             const filename = sauce.imageUrl.split("/images/")[1];
             fs.unlink(`images/${filename}`, () => {
                 // callback = notre logique delete

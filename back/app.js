@@ -6,6 +6,9 @@ const mongoose = require('mongoose');
 const helmet = require("helmet");
 // Import Node 'path' module > give access to the path of our file system
 const path = require('path');
+// import package env
+const dotenv = require("dotenv");
+dotenv.config();
 // import route 
 const userRoutes = require('./routes/user');
 const sauceRoutes = require('./routes/sauce');
